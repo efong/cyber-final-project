@@ -2,44 +2,47 @@ import json
 from urllib.request import urlopen
 from collections import defaultdict
 
-def read_JSON_from_URL(url):
-	"""
-	Reads json data from a URL.
-	Arg(s): url
-	Return: json object
+def read_json_from_url(url):
+	"""Reads JSON data from a URL.
+	Args:
+		url (string): URL to a JSON object
+	Returns:
+		data (JSON object): imported JSON object
 	"""
 	print('Reading JSON data...')
 	response = urlopen(url)
 	data = json.loads(response.read())
 	return data
 
-def read_JSON_from_File():
+def read_json_from_file():
+	"""Reads JSON object from file.
+	Args:
+		none
+	Returns:
+		data (JSON object): imported JSON object
 	"""
-	Reads json object from file.
-	Arg(s): none
-	Return: json object
-	"""
+	print('Reading JSON data...')
 	with open('./data/phishtank.json', 'r') as infile:
 		data = json.loads(infile.read())
-		return data
+	return data
 
 def write_JSON_to_File(jsonData):
-	"""
-	Writes json object to file.
-	Arg(s): json object
-	Return: none
+	"""Writes JSON object to file.
+	Args:
+		jsonData (JSON object): JSON to write to file
+	Returns:
+		none
 	"""
 	print('Writing JSON data...')
 	with open('./data/phishtank.json', 'w') as outfile:
 		json.dump(jsonData, outfile)
 
 def find_targets(jsonData):
-	"""
-	Collects names of targets of phishing domains as dictionary keys
-	and lists phishing id and phishing url as values.
-	{ 'target domain' : [phish_id, url, ...] }
-	Arg(s): json object
-	Return: default dictionary
+	"""Collects names of targets of phishing domains as dictionary keys and lists phishing id and phishing url as values.
+	Args:
+		jsonData (JSON object): JSON object to parse
+	Returns:
+		data (defaultdict): dictionary of elements by target { 'target domain' : [phish_id, url, ...] }
 	"""
 	data = defaultdict(list)
 	for ele in jsonData:
@@ -51,11 +54,13 @@ def find_targets(jsonData):
 				data[ele['target']].append(ele[x])
 	return data
 
-def print_targets(sorted, stop=1000):
-	"""
-	Prints dictionary entries to a given range or 1000.
-	Arg(s): dictionary, int
-	Return: none
+def print_targets(sorted, n=1000):
+	"""Prints dictionary entries to a given range or 1000.
+	Args:
+		sorted (defaultdict): dictionary to print
+		n (int): stop after printing this amount
+	Returns:
+		none
 	"""
 	count = 0
 	for (key, values) in sorted.items():
@@ -66,9 +71,9 @@ def print_targets(sorted, stop=1000):
 			print("\t", val)
 		print()
 		count += 1
-		if count >= stop:
+		if count >= n:
 			break
-	print("Dictionary keys: ", count)
+	print("Targets: ", count)
 
 # ---- Only used for initial data grab ----
 # url = 'http://data.phishtank.com/data/online-valid.json'
