@@ -44,24 +44,31 @@ def find_targets(jsonData):
 	data = defaultdict(list)
 	for ele in jsonData:
 		for x in ele:
-			if x == 'phish_id':
-				data[ele['target']].append(ele[x])
-			elif x == 'url':
+			# PhishTank phishing id
+			# if x == 'phish_id':
+			# 	data[ele['target']].append(ele[x])
+			if x == 'url':
 				data[ele['target']].append(ele[x])
 	return data
 
-def print_targets(sorted, stop):
+def print_targets(sorted, stop=1000):
 	"""
-	Prints dictionary entries to a given range.
+	Prints dictionary entries to a given range or 1000.
 	Arg(s): dictionary, int
 	Return: none
 	"""
-	for (key, value) in sorted.items():
-		print(key, "::", value)
+	count = 0
+	for (key, values) in sorted.items():
+		# Print trusted name
+		print(key, "::")
+		# Print phishing urls
+		for val in values:
+			print("\t", val)
 		print()
-		stop -= 1
-		if stop <= 0:
+		count += 1
+		if count >= stop:
 			break
+	print("Dictionary keys: ", count)
 
 # ---- Only used for initial data grab ----
 # url = 'http://data.phishtank.com/data/online-valid.json'
@@ -71,4 +78,4 @@ jsonData = read_JSON_from_File()
 cluster = find_targets(jsonData)
 
 # ---- print a few dictionary entries ----
-print_targets(cluster, 5)
+print_targets(cluster)
