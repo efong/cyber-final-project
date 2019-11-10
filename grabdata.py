@@ -51,11 +51,16 @@ def find_targets(jsonData):
 	return data
 
 def print_targets(sorted, stop):
+	"""
+	Prints dictionary entries to a given range.
+	Arg(s): dictionary, int
+	Return: none
+	"""
 	for (key, value) in sorted.items():
 		print(key, "::", value)
 		print()
 		stop -= 1
-		if stop < 0:
+		if stop <= 0:
 			break
 
 # ---- Only used for initial data grab ----
