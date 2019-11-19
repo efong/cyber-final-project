@@ -1,6 +1,7 @@
 import json
 from urllib.request import urlopen
 from collections import defaultdict
+import pandas as pd     # for csv
 
 def read_json_from_url(url):
 	"""Reads JSON data from a URL.
@@ -26,7 +27,7 @@ def read_json_from_file():
 		data = json.loads(infile.read())
 	return data
 
-def write_JSON_to_File(jsonData):
+def write_json_to_File(jsonData):
 	"""Writes JSON object to file.
 	Args:
 		jsonData (JSON object): JSON to write to file
@@ -37,7 +38,7 @@ def write_JSON_to_File(jsonData):
 	with open('./data/phishtank.json', 'w') as outfile:
 		json.dump(jsonData, outfile)
 
-def find_targets(jsonData):
+def find_json_targets(jsonData):
 	"""Collects names of targets of phishing domains as dictionary keys and lists phishing id and phishing url as values.
 	Args:
 		jsonData (JSON object): JSON object to parse
@@ -54,7 +55,7 @@ def find_targets(jsonData):
 				data[ele['target']].append(ele[x])
 	return data
 
-def print_targets(sorted, n=1000):
+def print_json_targets(sorted, n=1000):
 	"""Prints dictionary entries to a given range or 1000.
 	Args:
 		sorted (defaultdict): dictionary to print
@@ -75,12 +76,19 @@ def print_targets(sorted, n=1000):
 			break
 	print("Targets: ", count)
 
-# ---- Only used for initial data grab ----
+# ---- Only used for initial download of json data ----
 # url = 'http://data.phishtank.com/data/online-valid.json'
 # jsonData = read_JSON_from_URL(url)
 # write_JSON_to_File(jsonData)
-jsonData = read_JSON_from_File()
-cluster = find_targets(jsonData)
+
+#jsonData = read_json_from_file()
+#filter = find_json_targets(jsonData)
 
 # ---- print a few dictionary entries ----
-print_targets(cluster)
+#print_json_targets(filter)
+
+# ---- Download and save csv data ----
+url = 'http://data.phishtank.com/data/online-valid.csv'
+csv_data = pd.read_csv(url)
+csv_data.head()
+csv_data.to_csv('./data/online-valid.csv')
