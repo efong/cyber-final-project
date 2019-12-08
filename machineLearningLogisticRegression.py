@@ -28,11 +28,9 @@ def getTokens(input):
     allTokens = []
     for i in tokensSlash:
         tokensDash = str(i).split('-')
-        tokensDot = []
-        for j in range(0,len(tokensDash)):
-            tokens = str(tokensDash[j]).split('.')
-            tokensDot = tokensDot + tokens
-        allTokens = allTokens + tokensDot
+        for j in tokensDash:
+            tokensDot = str(j).split('.')
+            allTokens += tokensDot
     allTokens = list(set(allTokens)) # remove duplicates
     if 'com' in allTokens:
         allTokens.remove('com')
