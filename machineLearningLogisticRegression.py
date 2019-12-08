@@ -24,7 +24,7 @@ def getTokens(input):
     that should not be used for our purposes.
     Mostly taken from the website linked above.
     """
-    tokensSlash = str(input.split('/'))
+    tokensSlash = str(input).split('/')
     allTokens = []
     for i in tokensSlash:
         tokensDash = str(i).split('-')
@@ -32,7 +32,7 @@ def getTokens(input):
         for j in range(0,len(tokensDash)):
             tokens = str(tokensDash[j]).split('.')
             tokensDot = tokensDot + tokens
-        allTokens = allTokens + tokensDash + tokensDot
+        allTokens = allTokens + tokensDot
     allTokens = list(set(allTokens)) # remove duplicates
     if 'com' in allTokens:
         allTokens.remove('com')
@@ -68,7 +68,7 @@ vectorizer, logisticReg = TrainingAlgorithm()
 
 # To check URLs uncomment the following code:
 
-#toPredict = ['wikipedia.com','google.com'] # replace this list with the URLs to check
-#toPredict = vectorizer.transform(toPredict)
-#prediction = logisticReg.predict(toPredict)
-#print(prediction)
+toPredict = ['wikipedia.com','google.com'] # replace this list with the URLs to check
+toPredict = vectorizer.transform(toPredict)
+prediction = logisticReg.predict(toPredict)
+print(prediction)
